@@ -27,9 +27,21 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("✅ Usuario conectado:", socket.id);
 
+  socket.on("join", (room) => {
+    socket.join(room);
+    console.log(`🔗 Socket ${socket.id} se unió a ${room}`);
+  });
+
   socket.on("disconnect", () => {
     console.log("❌ Usuario desconectado:", socket.id);
   });
+});
+
+
+app.post("/emit", (req, res) => {
+  const { channel, event, data } = req.body;
+  io.to(channel).emit(event, data); // broadcast solo al canal
+  res.json({ ok: true });
 });
 
 // Ruta simple para probar si el servidor responde
