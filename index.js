@@ -9,6 +9,8 @@ import logger from "morgan";
 const app = express();
 app.use(cors());
 app.use(logger("dev"));
+app.use(express.json());
+
 // Crear servidor HTTP
 const server = http.createServer(app);
 
